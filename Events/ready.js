@@ -1,6 +1,6 @@
 const { ActivityType } = require("discord.js");
 const client = require("../index");
-
+const mongoose = require("mongoose");
 client.on("ready", (c) => {
         console.log(`> ${c.user.tag} is online!`);
 
