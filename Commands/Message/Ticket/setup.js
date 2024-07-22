@@ -1,7 +1,7 @@
 const { Message, PermissionFlagsBits, Client } = require("discord.js");
 
 module.exports = {
-        name: "ping",
+        name: "setup",
         description: "Websocket of bot",
         userPermissions: PermissionFlagsBits.SendMessages,
         botPermissions: PermissionFlagsBits.SendMessages,
