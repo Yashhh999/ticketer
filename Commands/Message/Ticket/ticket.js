@@ -1,5 +1,5 @@
 const { Message, PermissionFlagsBits, Client } = require("discord.js");
-const ServerConfig=require('../../../Models/Setup')
+
 module.exports = {
         name: "setup",
         description: "Websocket of bot",
@@ -15,12 +15,6 @@ module.exports = {
          * @param {String} prefix
          */
         run: async (client, message, args, prefix) => {
-               
-                //Category ID
-                //server id
-                //Support role id
-
                 
-
         },
 };
