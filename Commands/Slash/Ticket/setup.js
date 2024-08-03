@@ -42,7 +42,6 @@ module.exports = {
         const server = interaction.guild.id;
         const support = interaction.options.getRole('support');
 
-        // Create category channel
         let categoryChannel;
         try {
             categoryChannel = await interaction.guild.channels.create({
@@ -112,9 +111,11 @@ module.exports = {
                 .setDescription(description);
 
             await setupconfig.save();
-            await modalInteraction.reply({ embeds: [setupEmbed], components: [row] });
 
-            const collector = interaction.channel.createMessageComponentCollector({ filter: buttonFilter, time: 60000 });
+           
+            const setupMessage = await interaction.channel.send({ embeds: [setupEmbed], components: [row] });
+
+            const collector = setupMessage.createMessageComponentCollector({ filter: buttonFilter, time: 0 });
 
             collector.on('collect', async (buttonInteraction) => {
                 if (buttonInteraction.customId === 'create') {
@@ -148,11 +149,6 @@ module.exports = {
                 }
             });
 
-            collector.on('end', (collected) => {
-                if (collected.size === 0) {
-                    interaction.followUp({ content: 'Button not clicked in time.', ephemeral: true });
-                }
-            });
         } catch (error) {
             console.error('Error during modal submission or setup:', error);
             await interaction.followUp('Failed to save configuration.');
