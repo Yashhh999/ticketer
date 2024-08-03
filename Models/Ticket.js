@@ -4,7 +4,7 @@ const ticketSchema = new mongoose.Schema({
   guildId: String,
   userId: String,
   channelId: String,
-  categoryId: String,
+  category: String,
   status: { type: String, default: 'open' },
   createdAt: { type: Date, default: Date.now }
 });

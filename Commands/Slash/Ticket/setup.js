@@ -14,7 +14,9 @@ const {
     ChannelType,
 } = require('discord.js');
 const ServerConfig = require('../../../Models/Setup');
+const ticketUtils = require('../../../Functions/ticketUtils');
 
+const TicketSchema = require('../../../Models/Ticket');
 module.exports = {
     name: "setup",
     description: "Websocket of bot",
@@ -112,7 +114,6 @@ module.exports = {
 
             await setupconfig.save();
 
-           
             const setupMessage = await interaction.channel.send({ embeds: [setupEmbed], components: [row] });
 
             const collector = setupMessage.createMessageComponentCollector({ filter: buttonFilter, time: 0 });
@@ -142,6 +143,16 @@ module.exports = {
                         });
 
                         await buttonInteraction.followUp({ content: `Ticket created: ${newChannel}`, ephemeral: true });
+                        await ticketUtils(newChannel)
+
+                        const ticketSchema = new TicketSchema({
+                            guildId: server,
+                            userId: interaction.user.id,
+                            channelId: newChannel,
+                            category: categoryName,
+                        });
+                        
+
                     } catch (error) {
                         console.error('Error creating ticket:', error);
                         await buttonInteraction.followUp({ content: 'Failed to create ticket.', ephemeral: true });
@@ -153,5 +164,7 @@ module.exports = {
             console.error('Error during modal submission or setup:', error);
             await interaction.followUp('Failed to save configuration.');
         }
+
+
     },
 };
