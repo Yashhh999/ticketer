@@ -1,5 +1,6 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 const ticketSchema = require('../Models/Ticket');
+
 async function ticketUtils(channel) {
     const ticketUtilsEmbed = new EmbedBuilder()
         .setTitle("Ticket Utils")
@@ -37,8 +38,11 @@ async function ticketUtils(channel) {
                 }
 
                 await buttonInteraction.channel.delete();
-                const ticket = await ticketSchema.findOneAndUpdate({ channelId: channel.id },{status:"deleted"} );
-                ticket.save();
+                try {
+                    await ticketSchema.findOneAndUpdate({ channelId: channel.id }, { status: "deleted" });
+                } catch (error) {
+                    console.error('Error updating ticket status to deleted:', error);
+                }
             }
 
             if (buttonInteraction.customId === 'lock') {
@@ -47,10 +51,12 @@ async function ticketUtils(channel) {
                 }
 
                 await buttonInteraction.channel.permissionOverwrites.edit(channel.guild.roles.everyone, { ViewChannel: false });
-             
                 await buttonInteraction.reply({ content: "Ticket locked.", ephemeral: true });
-                const ticket = await ticketSchema.findOneAndUpdate({ channelId: channel.id },{status:"locked"} );
-                ticket.save();
+                try {
+                    await ticketSchema.findOneAndUpdate({ channelId: channel.id }, { status: "locked" });
+                } catch (error) {
+                    console.error('Error updating ticket status to locked:', error);
+                }
             }
 
             if (buttonInteraction.customId === 'claim') {
@@ -59,10 +65,8 @@ async function ticketUtils(channel) {
                 }
 
                 await buttonInteraction.channel.permissionOverwrites.edit(buttonInteraction.user, { ViewChannel: true, SendMessages: true });
-
                 await buttonInteraction.reply({ content: "Ticket claimed.", ephemeral: true });
                 await buttonInteraction.channel.setName(`${channel.name}+✅`);
-                
             }
         });
 
