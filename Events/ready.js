@@ -17,7 +17,7 @@ client.on("ready", (c) => {
         }
 
         client.user.setActivity({
-                name: `Thanks for using our handler! start editing Events/ready.js`,
-                type: ActivityType.Online,
+                name: `Your Tickets`,
+                type: ActivityType.Watching,
         });
 });
