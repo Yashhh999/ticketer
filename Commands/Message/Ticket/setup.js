@@ -1,4 +1,4 @@
-const { Message, PermissionFlagsBits, Client } = require("discord.js");
+const { Message, PermissionFlagsBits, Client, EmbedBuilder } = require("discord.js");
 const ServerConfig=require('../../../Models/Setup')
 module.exports = {
         name: "setup",
@@ -19,8 +19,10 @@ module.exports = {
                 //Category ID
                 //server id
                 //Support role id
-
                 
+
+
+                  
 
         },
 };
