@@ -38,7 +38,7 @@ async function ticketUtils(channel) {
 
                 await buttonInteraction.channel.delete();
                 const ticket = await ticketSchema.findOneAndUpdate({ channelId: channel.id },{status:"deleted"} );
-                
+                ticket.save();
             }
 
             if (buttonInteraction.customId === 'lock') {
@@ -50,7 +50,7 @@ async function ticketUtils(channel) {
              
                 await buttonInteraction.reply({ content: "Ticket locked.", ephemeral: true });
                 const ticket = await ticketSchema.findOneAndUpdate({ channelId: channel.id },{status:"locked"} );
-
+                ticket.save();
             }
 
             if (buttonInteraction.customId === 'claim') {
